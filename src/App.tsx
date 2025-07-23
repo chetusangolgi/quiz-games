@@ -63,6 +63,7 @@ function App() {
     saveResultsToSupabase(score);
     setGameState('results');
   };
+
   const handleRestart = () => {
     setGameState('email');
     setEmail('');

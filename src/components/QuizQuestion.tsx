@@ -62,15 +62,15 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
       'w-full border-2 px-4 py-3 text-left rounded-xl transition-all duration-300 cursor-pointer text-base sm:text-lg';
 
     if (!showFeedback) {
-      return `${base} border-[#00B5DB] bg-white hover:bg-[#e6f8fb] text-black`;
+      return `${base} border-[#00B5DB]  hover:bg-[#e6f8fb] text-black`;
     }
 
     if (index === question.correctAnswer) {
-      return `${base} bg-[#00E676] border-green-500 text-white font-semibold`;
+      return `${base} bg-[#00FF11] border-green-500 text-white font-semibold`;
     }
 
     if (index === selectedOption && index !== question.correctAnswer) {
-      return `${base} bg-red-300 border-red-500 text-white font-semibold`;
+      return `${base} bg-[#FF1F27] border-red-500 text-white font-semibold`;
     }
 
     return `${base} bg-white border-[#ccc] text-gray-400`;

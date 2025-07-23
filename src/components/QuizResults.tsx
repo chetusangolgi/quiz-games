@@ -8,11 +8,54 @@ interface QuizResultsProps {
 }
 
 export const QuizResults: React.FC<QuizResultsProps> = ({
+  email,
   score,
   totalQuestions,
   onRestart
 }) => {
   const [countdown, setCountdown] = useState(5);
+
+  // Send results to webhook API
+  useEffect(() => {
+    console.log('QuizResults component mounted with:', { email, score, totalQuestions });
+
+    const sendResultsToAPI = async () => {
+      console.log('Starting API call...');
+      try {
+        const payload = {
+          "email": email,
+          "element_id": "04",
+          "game_name": "MCQ",
+          "location": "surat",
+          "score": score
+        };
+
+        console.log('Sending JSON payload:', JSON.stringify(payload, null, 2));
+
+        const response = await fetch('https://hook.eu1.make.com/4jtevja63bir17db4oqw267cvuxe5y98', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload)
+        });
+
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
+
+        if (response.ok) {
+          console.log('Results sent successfully to webhook');
+        } else {
+          console.error('Failed to send results to webhook:', response.status);
+        }
+      } catch (error) {
+        console.error('Error sending results to webhook:', error);
+      }
+    };
+
+    // Send results immediately when component mounts
+    sendResultsToAPI();
+  }, [email, score]);
 
   useEffect(() => {
     const timer = setInterval(() => {
