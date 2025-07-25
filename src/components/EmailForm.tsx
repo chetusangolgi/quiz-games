@@ -13,7 +13,7 @@ export const EmailForm: React.FC<EmailFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 py-10 relative">
+    <div className="min-h-screen flex items-center justify-center px-6 py-10 relative gap-[50px]">
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -23,26 +23,29 @@ export const EmailForm: React.FC<EmailFormProps> = ({ onSubmit }) => {
       {/* Form Container */}
       <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
         {/* Title */}
-        <h1 className="text-3xl sm:text-4xl font-bold text-[#00B5DB] text-center mb-12">
+        <h1 className="text-[60px] font-bold text-[#00B5DB] text-center mb-12">
           FBF Quizz
         </h1>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="w-full flex flex-col items-center gap-6">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-6 py-4 text-lg text-white text-center placeholder-white bg-[#5E7CBA]/80 border border-[#5E7CBA] rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Enter E-mail address"
-            required
-          />
+        <form onSubmit={handleSubmit} className="w-full flex flex-col items-center gap-20">
+        <input
+  type="email"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  className="w-[774px] h-[131px] px-6 py-4 text-[60px] text-white text-center placeholder-white bg-[#5E7CBA]/80 rounded-xl border-2 border-[#2B3990] focus:outline-none focus:ring-2 focus:ring-blue-400"
+  placeholder="Enter E-mail address"
+  pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+  required
+/>
+
           <button
             type="submit"
-            className="w-full py-4 text-xl font-semibold text-white bg-[#4126FF] rounded-full hover:bg-[#321AD9] transition"
+            className="w-[551px] h-[128px] text-[60px] font-semibold text-white bg-[#4126FF] rounded-full hover:bg-[#321AD9] shadow-md transition"
           >
             Submit
           </button>
+
         </form>
       </div>
     </div>

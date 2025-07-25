@@ -59,61 +59,74 @@ export const QuizQuestion: React.FC<QuizQuestionProps> = ({
 
   const getOptionClassName = (index: number) => {
     const base =
-      'w-full border-2 px-4 py-3 text-left rounded-xl transition-all duration-300 cursor-pointer text-base sm:text-lg';
+      'w-full border-2 px-6 py-6 text-left rounded-xl transition-all duration-300 cursor-pointer text-[26px] font-semibold shadow-md';
 
     if (!showFeedback) {
-      return `${base} border-[#00B5DB]  hover:bg-[#e6f8fb] text-black`;
+      return `${base} border-[#00B5DB] hover:bg-[#EAF9FF] bg-white text-black`;
     }
 
     if (index === question.correctAnswer) {
-      return `${base} bg-[#00FF11] border-green-500 text-white font-semibold`;
+      return `${base} bg-[#00FF11] border-[#00FF11] text-white font-bold`;
     }
 
     if (index === selectedOption && index !== question.correctAnswer) {
-      return `${base} bg-[#FF1F27] border-red-500 text-white font-semibold`;
+      return `${base} bg-[#FF1F27] border-[#FF1F27] text-white font-bold`;
     }
 
-    return `${base} bg-white border-[#ccc] text-gray-400`;
+    return `${base} bg-white border-[#D9D9D9] text-[#A1A1A1]`;
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center relative px-4 py-10">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center relative px-4 py-10 font-sans">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: 'url(/background.png)' }}
       ></div>
 
-      {/* Content */}
-      <div className="w-full max-w-xl text-center relative z-10">
-        <h2 className="text-[#00B5DB] text-2xl font-bold mb-4">
-          Question {questionNumber}:
-        </h2>
-        <p className="text-black text-lg font-medium mb-8">
-          {question.question}
-        </p>
+      {/* Question Section */}
+    {/* Question Section */}
+<div className="w-full relative z-10 flex flex-col items-center">
+  <div className="w-full max-w-[800px] text-center mb-10">
+    <h2 className="text-[#00B5DB] text-[60px] font-bold mb-6">
+      Question {questionNumber}:
+    </h2>
+    <p className="text-black text-[40px] font-semibold leading-snug">
+      {question.question}
+    </p>
+  </div>
 
-        <div className="space-y-5 text-left">
-          {question.options.map((option, index) => (
-            <button
-              key={index}
-              onClick={() => handleOptionClick(index)}
-              className={getOptionClassName(index)}
-              disabled={selectedOption !== null}
-            >
-              <span className="font-medium">
-                {String.fromCharCode(97 + index)}) {option}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
+  {/* Options */}
+  <div className="w-full max-w-2xl space-y-6 text-left">
+    {question.options.map((option, index) => (
+      <button
+        key={index}
+        onClick={() => handleOptionClick(index)}
+        className={getOptionClassName(index)}
+        disabled={selectedOption !== null}
+      >
+        <span>
+          {String.fromCharCode(97 + index)}) {option}
+        </span>
+      </button>
+    ))}
+  </div>
+</div>
 
-      {/* Timer Below */}
-      <div className="mt-12 z-10 bg-yellow-400 text-[#3B2EDB] font-bold px-5 py-2 rounded-full flex items-center justify-center space-x-2 text-lg">
-        <div className="w-3 h-3 bg-[#3B2EDB] rounded-full" />
-        <span>{formatTime(timeLeft)}</span>
-      </div>
+
+      {/* Timer Section with Image */}
+      <div
+  className="absolute bottom-10 left-0 w-full  px-10 z-10 flex items-center justify-center gap-4 text-[40px] font-bold text-white"
+  style={{
+    background: 'linear-gradient(to right, #30c5e5 0%, rgba(48,197,229,0.1) 40%, rgba(6,50,185,0.1) 60%, #0632b9 100%)',
+  }}
+>
+  <img src="/timer.png" alt="Timer" className="w-[74px] h-[74px]" />
+  <span>{formatTime(timeLeft)}</span>
+</div>
+
+
+
     </div>
   );
 };
