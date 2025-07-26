@@ -102,7 +102,7 @@ export const QuizResults: React.FC<QuizResultsProps> = ({
               <p className="text-white text-[96px] font-bold mb-1 leading-none">
                 {scoreComponents.finalScore}/10
               </p>
-              <div className="text-white text-[32px] leading-[1.2] mt-4 space-y-1">
+              <div className="text-white text-[60px] leading-[1.2] mt-4 space-y-1">
                
                 <p>{score}/{totalQuestions} correct answers in {Math.floor(timeUsed / 60)}:{(timeUsed % 60).toString().padStart(2, '0')}</p>
               </div>
