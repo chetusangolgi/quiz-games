@@ -59,7 +59,7 @@ export const QuizResults: React.FC<QuizResultsProps> = ({
         }
         return prev - 1;
       });
-    }, 1000000); // ← Increase or correct this value later
+    }, 1000); // ← Increase or correct this value later
 
     return () => clearInterval(timer);
   }, [onRestart]);
@@ -103,7 +103,7 @@ export const QuizResults: React.FC<QuizResultsProps> = ({
                 {scoreComponents.finalScore}/10
               </p>
               <div className="text-white text-[32px] leading-[1.2] mt-4 space-y-1">
-                <p>Points: {scoreComponents.pointsScore}/5 | Time: {scoreComponents.timeScore}/5</p>
+               
                 <p>{score}/{totalQuestions} correct answers in {Math.floor(timeUsed / 60)}:{(timeUsed % 60).toString().padStart(2, '0')}</p>
               </div>
             </>
