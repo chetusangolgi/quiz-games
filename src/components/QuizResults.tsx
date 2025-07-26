@@ -50,7 +50,7 @@ export const QuizResults: React.FC<QuizResultsProps> = ({
         }
         return prev - 1;
       });
-    }, 1000000); // ← Increase or correct this value later
+    }, 1000); // ← Increase or correct this value later
 
     return () => clearInterval(timer);
   }, [onRestart]);
