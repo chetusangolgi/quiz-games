@@ -29,15 +29,15 @@ export const EmailForm: React.FC<EmailFormProps> = ({ onSubmit }) => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="w-full flex flex-col items-center gap-20">
-        <input
-  type="email"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-  className="w-[774px] h-[131px] px-6 py-4 text-[60px] text-white text-center placeholder-white bg-[#5E7CBA]/80 rounded-xl border-2 border-[#2B3990] focus:outline-none focus:ring-2 focus:ring-blue-400"
-  placeholder="Enter E-mail address"
-  pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
-  required
-/>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-[774px] h-[131px] px-6 py-4 text-[60px] text-white text-center placeholder-white bg-[#5E7CBA]/80 rounded-xl border-2 border-[#2B3990] focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Enter E-mail address"
+            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+            required
+          />
 
           <button
             type="submit"
