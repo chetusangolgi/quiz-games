@@ -24,7 +24,7 @@ export const EmailForm: React.FC<EmailFormProps> = ({ onSubmit }) => {
       <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-10">
         {/* Title */}
         <h1 className="text-[60px] font-bold text-[#00B5DB] text-center mb-12">
-          FBF Quizz
+          FBF Quizz Game
         </h1>
 
         {/* Form */}
@@ -43,7 +43,7 @@ export const EmailForm: React.FC<EmailFormProps> = ({ onSubmit }) => {
             type="submit"
             className="w-[551px] h-[128px] text-[60px] font-semibold text-white bg-[#4126FF] rounded-full hover:bg-[#321AD9] shadow-md transition"
           >
-            Submit
+            Play
           </button>
 
         </form>
