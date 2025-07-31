@@ -6,87 +6,110 @@ interface EmailFormProps {
 
 export const EmailForm: React.FC<EmailFormProps> = ({ onSubmit }) => {
   const [email, setEmail] = useState('');
-  const [isValid, setIsValid] = useState(true); // Retaining isValid for email validation
-  const [showWelcomeScreen, setShowWelcomeScreen] = useState(true); // New state to control initial screen
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  // State to control which view (and background) is shown
+  const [showWelcomeScreen, setShowWelcomeScreen] = useState(true);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateEmail = (email: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (error) setError('');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setIsValid(false);
+    if (!email.trim()) {
+      setError('Email address is required');
       return;
     }
 
-    setIsValid(true);
-    onSubmit(email);
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
+
+    try {
+      // Simulate API call or async operation
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      onSubmit(email);
+    } catch {
+      setError('Something went wrong. Please try again.');
+      setIsLoading(false);
+    }
   };
 
+  // This function will now trigger the state change to show the email form
   const handlePlayClick = () => {
-    setShowWelcomeScreen(false); // Hide welcome screen and show email form
+    setShowWelcomeScreen(false);
   };
+
+  // Derived state for email validity, simplifying state management
+  const isValidEmail = email.trim() && validateEmail(email);
+
+  // Dynamically set the background image based on the showWelcomeScreen state.
+  // This assumes 'background2.png' and 's1.png' are in your 'public' folder.
+  const backgroundImageUrl = showWelcomeScreen
+    ? "url('/background2.png')" // Initial screen background
+    : "url('/background.png')"; // Form screen background
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 py-10 relative gap-[50px]">
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: 'url(/background.png)' }}
-      ></div>
-
-      {/* Content based on showWelcomeScreen state */}
-      {showWelcomeScreen ? (
-        // Initial Welcome Content
-        <div className="text-center mb-16 transition-opacity duration-500 ease-in-out relative z-10">
-          {/* Headings with increased font size and specific color */}
-          <h3 className="text-8xl font-bold mb-4" style={{ color: '#00B5DB', lineHeight: '1' }}>Play More,</h3>
-          <h3 className="text-8xl font-bold" style={{ color: '#00B5DB', lineHeight: '1' }}>Learn More</h3>
-
-          {/* CTA Button with increased font, width, height, and specific background color */}
-          <button
-            onClick={handlePlayClick}
-            className="text-white text-6xl font-semibold px-20 py-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl mt-20"
-            style={{ backgroundColor: '#4315EF' }} // Applied direct style for specific background color
-          >
-            Click here to Play
-          </button>
-        </div>
-      ) : (
-        // Email Form Content
-        <div className="w-full max-w-md mx-auto flex flex-col items-center relative z-10 transition-opacity duration-500 ease-in-out">
-          {/* Title */}
-          <h1 className="text-[48px] font-bold text-[#00B5DB] text-center mb-12">
-            FBF Quizz Game
-          </h1>
-
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="w-full flex flex-col items-center gap-20">
-            <div>
+    <div
+      className="h-screen w-screen flex items-center justify-center px-4 overflow-hidden transition-all duration-500"
+      style={{
+        backgroundImage: backgroundImageUrl,
+        backgroundSize: 'cover',
+        backgroundPosition: 'top center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="min-h-screen flex flex-col items-center justify-center relative w-full">
+        {/* Conditional rendering based on showWelcomeScreen state */}
+        {showWelcomeScreen ? (
+          // Initial Welcome Content with background2.png
+          <div className="text-center mb-16 transition-opacity duration-500 ease-in-out">
+            <button
+              onClick={handlePlayClick}
+              className="w-[800px] h-[240px] rounded-full transform hover:scale-105 hover:shadow-xl mt-[900px]"
+              style={{ backgroundColor: 'transparent' }}
+              aria-label="Play Game" // Accessibility improvement
+            >
+              {/* This button is a large, transparent clickable area */}
+            </button>
+          </div>
+        ) : (
+          // Email Form Content with s1.png
+          <div className="w-full max-w-3xl flex flex-col items-center transition-opacity duration-500 ease-in-out">
+            <h1 className="text-[32px] sm:text-[40px] md:text-[48px] font-bold text-[#00B5DB] text-center mb-12 sm:mb-16">
+              FBF Quizz Game
+            </h1>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-8 sm:gap-12 items-center w-full px-4">
               <input
                 type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  setIsValid(true); // Reset validation on change
-                }}
-                className="w-[774px] h-[131px] px-6 py-4 text-[60px] text-white text-center placeholder-white bg-[#5E7CBA]/80 rounded-xl border-2 border-[#2B3990] focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Enter E-mail address"
+                value={email}
+                onChange={handleEmailChange}
+                disabled={isLoading}
                 required
+                className="w-full max-w-xl h-[64px] sm:h-[80px] md:h-[90px] px-4 sm:px-6 text-lg sm:text-2xl md:text-3xl bg-[#4291C3] border border-[#4315EF] text-white placeholder-white text-center rounded-[12px] shadow-md focus:outline-none"
               />
-              {!isValid && (
-                <p className="text-red-300 text-sm mt-2">Please enter a valid email address</p>
-              )}
-            </div>
-
-            <button
-              type="submit"
-              className="w-[551px] h-[128px] text-[60px] font-semibold text-white bg-[#4126FF] rounded-full hover:bg-[#321AD9] shadow-md transition"
-            >
-              Play
-            </button>
-          </form>
-        </div>
-      )}
+              <button
+                type="submit"
+                disabled={!isValidEmail || isLoading}
+                className="w-full max-w-xs h-[60px] sm:h-[70px] md:h-[80px] bg-[#4315EF] text-white text-lg sm:text-xl md:text-4xl font-semibold rounded-full shadow-xl hover:opacity-90 transition-all"
+              >
+                {isLoading ? 'Starting...' : 'Play'}
+              </button>
+            </form>
+            {error && <p className="text-md sm:text-lg text-red-600 mt-6 sm:mt-8 text-center">{error}</p>}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
